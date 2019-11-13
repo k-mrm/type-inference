@@ -4,7 +4,7 @@
 #define EXPR_BASE Expr base
 
 enum ExprKind {
-    LITERAL,
+    INTEGER,
     VAR,
     LAMBDA,
     APPLY,
@@ -16,15 +16,14 @@ struct Expr {
 
 typedef struct Expr Expr;
 
-typedef struct Literal Literal;
+typedef struct Integer Integer;
 typedef struct Var Var;
 typedef struct Lambda Lambda;
+typedef struct Let Let;
 
-struct Literal {
+struct Integer {
     EXPR_BASE;
-    union {
-        int num;
-    };
+    int num;
 };
 
 struct Var {
@@ -46,10 +45,10 @@ struct Apply {
          *e;
 };
 
-Literal *new_literal(int);
-Var *new_var(char *);
-Lambda *new_lambda(char *, Expr *);
-Apply *new_apply(Expr *, Expr *);
+Integer *integer(int);
+Var *var(char *);
+Lambda *lambda(char *, Expr *);
+Apply *apply(Expr *, Expr *);
 
 
 #endif

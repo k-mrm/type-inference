@@ -4,9 +4,9 @@
 #define TYPE_BASE Type base;
 
 enum TypeKind {
-    Type_Int,
-    Type_Fn,
-    Type_Var,       // Type Variable
+    TINT,
+    TFN,
+    TVAR,       // Type Variable
 };
 
 struct Type {
@@ -36,5 +36,8 @@ struct TVar {
     int id;
 };
 
+TInt *new_tint();
+TFn *new_tfn(Type *, Type *);
+TVar *new_tvar(int);
 
 #endif
