@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "type.h"
 
-TInt *new_tint() {
+TInt *type_int() {
     TInt *self = malloc(sizeof(TInt));
 
     ((Type *)self)->kind = TINT; 
@@ -9,7 +9,15 @@ TInt *new_tint() {
     return self;
 }
 
-TFn *new_tfn(Type *a, Type *r) {
+TBool *type_bool() {
+    TBool *self = malloc(sizeof(TBool));
+
+    ((Type *)self)->kind = TBOOL;
+
+    return self;
+}
+
+TFn *type_fn(Type *a, Type *r) {
     TFn *self = malloc(sizeof(TFn));
 
     ((Type *)self)->kind = TFN;
@@ -19,7 +27,7 @@ TFn *new_tfn(Type *a, Type *r) {
     return self;
 }
 
-TVar *new_tvar(int id) {
+TVar *type_var(int id) {
     TVar *self = malloc(sizeof(TFn));
 
     ((Type *)self)->kind = TVAR;

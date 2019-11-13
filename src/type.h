@@ -5,6 +5,7 @@
 
 enum TypeKind {
     TINT,
+    TBOOL,
     TFN,
     TVAR,       // Type Variable
 };
@@ -16,10 +17,15 @@ struct Type {
 typedef struct Type Type;
 
 typedef struct TInt TInt;
+typedef struct TBool TBool;
 typedef struct TFn TFn;
 typedef struct TVar TVar;
 
 struct TInt {
+    TYPE_BASE;
+};
+
+struct TBool {
     TYPE_BASE;
 };
 
@@ -36,8 +42,9 @@ struct TVar {
     int id;
 };
 
-TInt *new_tint();
-TFn *new_tfn(Type *, Type *);
-TVar *new_tvar(int);
+TInt *type_int();
+TBool *type_bool();
+TFn *type_fn(Type *, Type *);
+TVar *type_var(int);
 
 #endif
