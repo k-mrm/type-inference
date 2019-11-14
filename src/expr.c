@@ -39,6 +39,17 @@ Expr *apply(Expr *f, Expr *e) {
     return (Expr *)self;
 }
 
+Expr *let(char *name, Expr *d, Expr *b) {
+    Let *self = malloc(sizeof(Let));
+
+    ((Expr *)self)->kind = LET;
+    self->name = name;
+    self->def = d;
+    self->body = b;
+
+    return (Expr *)self;
+}
+
 Expr *binary(Expr *left, char *op, Expr *right) {
     return apply(apply(var(op), left), right);
 }

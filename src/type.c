@@ -39,22 +39,23 @@ Type *type_var(int id) {
     return (Type *)self;
 }
 
-char *type_show(Type *ty) {
+void typedump(Type *ty) {
+    typedump_core(ty);
+    puts("");
+}
+
+void typedump_core(Type *ty) {
     assert(ty);
 
     switch(ty->kind) {
-    case TINT:      return "int";
-    case TBOOL:     return "bool";
+    case TINT:      printf("int");  break;
+    case TBOOL:     printf("bool"); break;
     case TFN: {
-        char *a = type_show(((TFn *)ty)->a);
-        char *ret = type_show(((TFn *)ty)->result); 
-        
-        char *res = malloc(strlen(a) + strlen(ret));
-
-        sprintf(res, "%s -> %s", a, ret);
-
-        return res;
+        typedump_core(((TFn *)ty)->a);
+        printf(" -> ");
+        typedump_core(((TFn *)ty)->result);
+        break;
     }
-    default:        return "Error";
+    default:        printf("error");
     }
 }

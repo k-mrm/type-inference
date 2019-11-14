@@ -47,6 +47,7 @@ Type *type_bool();
 Type *type_fn(Type *, Type *);
 Type *type_var(int);
 
-char *type_show(Type *);
+void typedump(Type *);
+void typedump_core(Type *);
 
 #endif

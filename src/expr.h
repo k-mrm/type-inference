@@ -8,6 +8,7 @@ enum ExprKind {
     VAR,
     LAMBDA,
     APPLY,
+    LET,
 };
 
 struct Expr {
@@ -21,6 +22,7 @@ typedef struct Var Var;
 typedef struct Lambda Lambda;
 typedef struct Let Let;
 typedef struct Apply Apply;
+typedef struct Let Let;
 
 struct Integer {
     EXPR_BASE;
@@ -34,22 +36,28 @@ struct Var {
 
 struct Lambda {
     EXPR_BASE;
-
     char *x;
     Expr *e;
 };
 
 struct Apply {
     EXPR_BASE;
-
     Expr *f,
          *e;
+};
+
+struct Let {
+    EXPR_BASE;
+    char *name;
+    Expr *def,
+         *body;
 };
 
 Expr *integer(int);
 Expr *var(char *);
 Expr *lambda(char *, Expr *);
 Expr *apply(Expr *, Expr *);
+Expr *let(char *, Expr *, Expr *);
 Expr *binary(Expr *, char *, Expr *);
 
 

@@ -29,7 +29,7 @@ int main(void) {
         integer(200)
     );
 
-    printf("%s\n", type_show(a));
+    typedump(a);
 
     return 0;
 }
