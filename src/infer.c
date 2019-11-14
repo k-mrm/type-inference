@@ -13,6 +13,8 @@ Type *type_infer(Env *env, Expr *e) {
     case VAR:
     case LAMBDA:
     case APPLY:
+    case LET:
+    case LETREC:
     default:
         printf("internal error");
     }

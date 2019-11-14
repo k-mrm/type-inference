@@ -40,6 +40,8 @@ struct TVar {
     TYPE_BASE;
 
     int id;
+    char n;
+    Type *instance;
 };
 
 Type *type_int();

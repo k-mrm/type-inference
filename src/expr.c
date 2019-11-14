@@ -50,6 +50,17 @@ Expr *let(char *name, Expr *d, Expr *b) {
     return (Expr *)self;
 }
 
+Expr *letrec(char *name, Expr *d, Expr *b) {
+    Letrec *self = malloc(sizeof(Letrec));
+
+    ((Expr *)self)->kind = LETREC;
+    self->name = name;
+    self->def = d;
+    self->body = b;
+
+    return (Expr *)self;
+}
+
 Expr *binary(Expr *left, char *op, Expr *right) {
     return apply(apply(var(op), left), right);
 }

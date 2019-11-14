@@ -9,6 +9,7 @@ enum ExprKind {
     LAMBDA,
     APPLY,
     LET,
+    LETREC,
 };
 
 struct Expr {
@@ -23,6 +24,7 @@ typedef struct Lambda Lambda;
 typedef struct Let Let;
 typedef struct Apply Apply;
 typedef struct Let Let;
+typedef struct Letrec Letrec;
 
 struct Integer {
     EXPR_BASE;
@@ -53,11 +55,19 @@ struct Let {
          *body;
 };
 
+struct Letrec {
+    EXPR_BASE;
+    char *name;
+    Expr *def,
+         *body;
+};
+
 Expr *integer(int);
 Expr *var(char *);
 Expr *lambda(char *, Expr *);
 Expr *apply(Expr *, Expr *);
 Expr *let(char *, Expr *, Expr *);
+Expr *letrec(char *, Expr *, Expr *);
 Expr *binary(Expr *, char *, Expr *);
 
 
