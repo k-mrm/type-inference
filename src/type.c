@@ -1,37 +1,60 @@
-#include <stdlib.h>
 #include "type.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
-TInt *type_int() {
+Type *type_int() {
     TInt *self = malloc(sizeof(TInt));
 
     ((Type *)self)->kind = TINT; 
 
-    return self;
+    return (Type *)self;
 }
 
-TBool *type_bool() {
+Type *type_bool() {
     TBool *self = malloc(sizeof(TBool));
 
     ((Type *)self)->kind = TBOOL;
 
-    return self;
+    return (Type *)self;
 }
 
-TFn *type_fn(Type *a, Type *r) {
+Type *type_fn(Type *a, Type *r) {
     TFn *self = malloc(sizeof(TFn));
 
     ((Type *)self)->kind = TFN;
     self->a = a;
     self->result = r;
 
-    return self;
+    return (Type *)self;
 }
 
-TVar *type_var(int id) {
+Type *type_var(int id) {
     TVar *self = malloc(sizeof(TFn));
 
     ((Type *)self)->kind = TVAR;
     self->id = id;
 
-    return self;
+    return (Type *)self;
+}
+
+char *type_show(Type *ty) {
+    assert(ty);
+
+    switch(ty->kind) {
+    case TINT:      return "int";
+    case TBOOL:     return "bool";
+    case TFN: {
+        char *a = type_show(((TFn *)ty)->a);
+        char *ret = type_show(((TFn *)ty)->result); 
+        
+        char *res = malloc(strlen(a) + strlen(ret));
+
+        sprintf(res, "%s -> %s", a, ret);
+
+        return res;
+    }
+    default:        return "Error";
+    }
 }

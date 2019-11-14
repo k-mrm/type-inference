@@ -20,6 +20,7 @@ typedef struct Integer Integer;
 typedef struct Var Var;
 typedef struct Lambda Lambda;
 typedef struct Let Let;
+typedef struct Apply Apply;
 
 struct Integer {
     EXPR_BASE;
@@ -45,10 +46,11 @@ struct Apply {
          *e;
 };
 
-Integer *integer(int);
-Var *var(char *);
-Lambda *lambda(char *, Expr *);
-Apply *apply(Expr *, Expr *);
+Expr *integer(int);
+Expr *var(char *);
+Expr *lambda(char *, Expr *);
+Expr *apply(Expr *, Expr *);
+Expr *binary(Expr *, char *, Expr *);
 
 
 #endif

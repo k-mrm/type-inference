@@ -42,9 +42,11 @@ struct TVar {
     int id;
 };
 
-TInt *type_int();
-TBool *type_bool();
-TFn *type_fn(Type *, Type *);
-TVar *type_var(int);
+Type *type_int();
+Type *type_bool();
+Type *type_fn(Type *, Type *);
+Type *type_var(int);
+
+char *type_show(Type *);
 
 #endif
