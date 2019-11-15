@@ -4,7 +4,7 @@
 #include "env.h"
 #include "expr.h"
 
-Type *type_infer(Env *, Expr *);
+Type *analyze(Env *, Expr *);
 
 
 #endif

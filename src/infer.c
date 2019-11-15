@@ -4,7 +4,7 @@
 #include "infer.h"
 #include "type.h"
 
-Type *type_infer(Env *env, Expr *e) {
+Type *analyze(Env *env, Expr *e) {
     assert(e);
 
     switch(e->kind) {

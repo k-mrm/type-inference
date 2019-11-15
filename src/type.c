@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+char tvar_name = 'a';
+
 Type *type_int() {
     TInt *self = malloc(sizeof(TInt));
 
@@ -16,6 +18,14 @@ Type *type_bool() {
     TBool *self = malloc(sizeof(TBool));
 
     ((Type *)self)->kind = TBOOL;
+
+    return (Type *)self;
+}
+
+Type *type_unknown() {
+    TUnknown *self = malloc(sizeof(TUnknown));
+
+    ((Type *)self)->kind = TUNKNOWN;
 
     return (Type *)self;
 }
@@ -37,6 +47,20 @@ Type *type_var(int id) {
     self->id = id;
 
     return (Type *)self;
+}
+
+bool is_type_variable(Type *ty) {
+    if(ty->kind == TVAR) {
+        return true;
+    }
+    return false;
+}
+
+bool is_type_operator(Type *ty) {
+    if(ty->kind == TVAR) {
+        return false;
+    }
+    return true;
 }
 
 void typedump(Type *ty) {

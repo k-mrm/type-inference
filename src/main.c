@@ -24,7 +24,7 @@ int main(void) {
 
     init(env);
 
-    Type *a = type_infer(
+    Type *a = analyze(
         env,
         integer(200)
     );
