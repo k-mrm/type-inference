@@ -64,13 +64,13 @@ bool is_type_operator(Type *ty) {
 }
 
 void typedump(Type *ty) {
+    if(ty == NULL)  return;
+
     typedump_core(ty);
     puts("");
 }
 
 void typedump_core(Type *ty) {
-    assert(ty);
-
     switch(ty->kind) {
     case TINT:      printf("int");  break;
     case TBOOL:     printf("bool"); break;

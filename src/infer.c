@@ -10,7 +10,15 @@ Type *analyze(Env *env, Expr *e) {
     switch(e->kind) {
     case INTEGER:
         return type_int();
-    case VAR:
+    case VAR: {
+        Type *ty = lookup(env, ((Var *)e)->name);
+
+        if(ty == NULL) {
+            printf("unknown: `%s`", ((Var *)e)->name);
+        }
+
+        return ty;
+    }
     case LAMBDA:
     case APPLY:
     case LET:

@@ -1,5 +1,6 @@
 #include "env.h"
 #include <stdlib.h>
+#include <string.h>
 
 Env *new_env() {
     Env *self = malloc(sizeof(Env));
@@ -15,4 +16,14 @@ void add_symbol(Env *self, char *sym, Type *type) {
     self->current->type = type;
     self->current++;
     self->cursor++;
+}
+
+Type *lookup(Env *self, char *key) {
+    for(int i = 0; i < self->cursor; i++) {
+        if(strcmp(key, self->ls[i].key) == 0) {
+            return self->ls[i].type;
+        }
+    }
+
+    return NULL;
 }

@@ -19,5 +19,6 @@ struct Env {
 
 Env *new_env();
 void add_symbol(Env *, char *, Type *);
+Type *lookup(Env *, char *);
 
 #endif

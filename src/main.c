@@ -28,8 +28,13 @@ int main(void) {
         env,
         integer(200)
     );
-
     typedump(a);
+
+    Type *b = analyze(env, var("true"));
+    typedump(b);
+
+    Type *c = analyze(env, var("+"));
+    typedump(c);
 
     return 0;
 }
