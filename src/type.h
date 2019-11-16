@@ -13,11 +13,13 @@ enum TypeKind {
     TUNKNOWN,
 };
 
+typedef struct Type Type;
+
 struct Type {
     enum TypeKind kind; 
+    int ntype;
+    Type *types[2];
 };
-
-typedef struct Type Type;
 
 typedef struct TInt TInt;
 typedef struct TBool TBool;

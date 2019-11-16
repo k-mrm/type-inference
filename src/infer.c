@@ -7,17 +7,47 @@
 Type *prune(Type *ty) {
     if(ty == NULL) return NULL;
 
-    if(is_type_variable(ty) && ty->instance != NULL) {
-        ty->instance = prune(ty->instance);
-        return ty->instance;
+    if(is_type_variable(ty)) {
+        TVar *vty = (TVar *)ty;
+        if(vty->instance != NULL) {
+            vty->instance = prune((Type *)vty->instance);
+            return vty->instance;
+        }
     }
 
     return ty;
 }
 
 void unify(Type *t1, Type *t2) {
-    Type *t1 = prune(t1);
-    Type *t2 = prune(t2);
+    t1 = prune(t1);
+    t2 = prune(t2);
+
+    if(is_type_variable(t1)) {
+        ;
+    }
+    else if(is_type_operator(t1) &&
+            is_type_variable(t2)) {
+        unify(t2, t1);
+    }
+    else if(is_type_operator(t1) &&
+            is_type_operator(t2)) {
+        if(t1->kind != t2->kind || t1->ntype != t2->ntype) {
+            printf("type error: ");
+            typedump(t1);
+            printf(", ");
+            typedump(t2);
+            puts("");
+
+            return;
+        }
+        
+        for(int i = 0; i < t1->ntype; i++) {
+            unify(t1->types[i], t2->types[i]);
+        }
+    }
+    else {
+        printf("cannot infer");
+    }
 }
 
 Type *analyze(Env *env, Expr *e) {
@@ -40,6 +70,7 @@ Type *analyze(Env *env, Expr *e) {
         Type *fn = analyze(env, ((Apply *)e)->fn);
         Type *arg = analyze(env, ((Apply *)e)->arg);
         Type *res = type_var(); 
+        break;
     }
     case LET:
     case LETREC:
