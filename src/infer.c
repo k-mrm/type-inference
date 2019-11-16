@@ -16,7 +16,8 @@ Type *prune(Type *ty) {
 }
 
 void unify(Type *t1, Type *t2) {
-    ;
+    Type *t1 = prune(t1);
+    Type *t2 = prune(t2);
 }
 
 Type *analyze(Env *env, Expr *e) {
