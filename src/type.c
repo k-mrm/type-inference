@@ -7,61 +7,48 @@
 char tvar_name = 'a';
 int cur_id = 0;
 
+Type *type_operator0(enum TypeKind k) {
+    Type *self = malloc(sizeof(Type));
+
+    self->kind = k; 
+    self->ntype = 0;
+    self->types[0] = NULL;
+    self->types[1] = NULL;
+
+    return self;
+}
+
 Type *type_int() {
-    TInt *self = malloc(sizeof(TInt));
-
-    ((Type *)self)->kind = TINT; 
-    ((Type *)self)->ntype = 0;
-    ((Type *)self)->types[0] = NULL;
-    ((Type *)self)->types[1] = NULL;
-
-    return (Type *)self;
+    return type_operator0(TINT);
 }
 
 Type *type_bool() {
-    TBool *self = malloc(sizeof(TBool));
-
-    ((Type *)self)->kind = TBOOL;
-    ((Type *)self)->ntype = 0;
-    ((Type *)self)->types[0] = NULL;
-    ((Type *)self)->types[1] = NULL;
-
-    return (Type *)self;
-}
-
-Type *type_unknown() {
-    TUnknown *self = malloc(sizeof(TUnknown));
-
-    ((Type *)self)->kind = TUNKNOWN;
-    ((Type *)self)->ntype = 0;
-    ((Type *)self)->types[0] = NULL;
-    ((Type *)self)->types[1] = NULL;
-
-    return (Type *)self;
+    return type_operator0(TBOOL);
 }
 
 Type *type_fn(Type *a, Type *r) {
-    TFn *self = malloc(sizeof(TFn));
+    Type *self = malloc(sizeof(Type));
 
-    ((Type *)self)->kind = TFN;
-    self->a = a;
+    self->kind = TFN;
+    self->arg = a;
     self->result = r;
-    ((Type *)self)->ntype = 2;
-    ((Type *)self)->types[0] = a;
-    ((Type *)self)->types[1] = r;
+    self->ntype = 2;
+    self->types[0] = a;
+    self->types[1] = r;
 
     return (Type *)self;
 }
 
 Type *type_var() {
-    TVar *self = malloc(sizeof(TFn));
+    Type *self = malloc(sizeof(Type));
 
-    ((Type *)self)->kind = TVAR;
-    ((Type *)self)->ntype = 0;
-    ((Type *)self)->types[0] = NULL;
-    ((Type *)self)->types[1] = NULL;
+    self->kind = TVAR;
+    self->ntype = 0;
+    self->types[0] = NULL;
+    self->types[1] = NULL;
 
     self->id = cur_id++;
+    self->name = 0;
     self->instance = NULL;
 
     return (Type *)self;
@@ -91,9 +78,13 @@ void typedump_core(Type *ty) {
     case TINT:      printf("int");  break;
     case TBOOL:     printf("bool"); break;
     case TFN: {
-        typedump_core(((TFn *)ty)->a);
+        typedump_core(ty->arg);
         printf(" -> ");
-        typedump_core(((TFn *)ty)->result);
+        typedump_core(ty->result);
+        break;
+    }
+    case TVAR: {
+        printf("%c", ty->name);
         break;
     }
     default:        printf("error");

@@ -8,10 +8,9 @@ Type *prune(Type *ty) {
     if(ty == NULL) return NULL;
 
     if(is_type_variable(ty)) {
-        TVar *vty = (TVar *)ty;
-        if(vty->instance != NULL) {
-            vty->instance = prune((Type *)vty->instance);
-            return vty->instance;
+        if(ty->instance != NULL) {
+            ty->instance = prune(ty->instance);
+            return ty->instance;
         }
     }
 

@@ -3,17 +3,17 @@
 
 #include "type.h"
 
-typedef struct TypeMap TypeMap;
+typedef struct TupleST TupleST;
 typedef struct Env Env;
 
-struct TypeMap {
+struct TupleST {
     char *key;
     Type *type;
 };
 
 struct Env {
-    TypeMap ls[128];
-    TypeMap *current;
+    TupleST ls[128];
+    TupleST *current;
     unsigned int cursor;
 };
 

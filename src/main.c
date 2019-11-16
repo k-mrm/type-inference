@@ -33,7 +33,7 @@ int main(void) {
     Type *b = analyze(env, var("choko"));
     typedump(b);
 
-    Type *c = analyze(env, var("+"));
+    Type *c = analyze(env, var("<"));
     typedump(c);
 
     return 0;
