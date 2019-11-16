@@ -11,6 +11,14 @@ Env *new_env() {
     return self;
 }
 
+Env *copy_env(Env *src) {
+    Env *dst = malloc(sizeof(Env));
+
+    memcpy(dst, src, sizeof(Env));
+
+    return dst;
+}
+
 void add_symbol(Env *self, char *sym, Type *type) {
     self->current->key = sym; 
     self->current->type = type;

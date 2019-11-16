@@ -44,8 +44,8 @@ struct Lambda {
 
 struct Apply {
     EXPR_BASE;
-    Expr *f,
-         *e;
+    Expr *fn,
+         *arg;
 };
 
 struct Let {

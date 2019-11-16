@@ -5,6 +5,7 @@
 #include <assert.h>
 
 char tvar_name = 'a';
+int cur_id = 0;
 
 Type *type_int() {
     TInt *self = malloc(sizeof(TInt));
@@ -40,27 +41,22 @@ Type *type_fn(Type *a, Type *r) {
     return (Type *)self;
 }
 
-Type *type_var(int id) {
+Type *type_var() {
     TVar *self = malloc(sizeof(TFn));
 
     ((Type *)self)->kind = TVAR;
-    self->id = id;
+    self->id = cur_id++;
+    self->instance = NULL;
 
     return (Type *)self;
 }
 
 bool is_type_variable(Type *ty) {
-    if(ty->kind == TVAR) {
-        return true;
-    }
-    return false;
+    return ty->kind == TVAR;
 }
 
 bool is_type_operator(Type *ty) {
-    if(ty->kind == TVAR) {
-        return false;
-    }
-    return true;
+    return ty->kind != TVAR;
 }
 
 void typedump(Type *ty) {

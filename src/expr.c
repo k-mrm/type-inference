@@ -33,8 +33,8 @@ Expr *apply(Expr *f, Expr *e) {
     Apply *self = malloc(sizeof(Apply));
 
     ((Expr *)self)->kind = APPLY;
-    self->f = f;
-    self->e = e;
+    self->fn = f;
+    self->arg = e;
 
     return (Expr *)self;
 }

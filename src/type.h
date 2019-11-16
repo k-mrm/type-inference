@@ -50,11 +50,11 @@ struct TUnknown {
     TYPE_BASE;
 };
 
-Type *type_int();
-Type *type_bool();
-Type *type_unknown();
+Type *type_int(void);
+Type *type_bool(void);
+Type *type_unknown(void);
 Type *type_fn(Type *, Type *);
-Type *type_var(int);
+Type *type_var(void);
 bool is_type_variable(Type *);
 bool is_type_operator(Type *);
 
