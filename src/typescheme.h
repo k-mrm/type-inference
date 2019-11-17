@@ -2,15 +2,18 @@
 #define TI_TYPESCHEME_H
 
 #include "type.h"
+#include "util.h"
+
+typedef struct TypeScheme TypeScheme;
 
 /*
  *  ex) body: 'a->'b->'a => tyvars['a, 'b] 
  */
 struct TypeScheme {
-    Type *tyvars[128];
+    Vector *tyvars;     // Vec<Type *>
     Type *body;
-
-    int ntyvar;
 };
+
+TypeScheme *new_tyscheme(Vector *, Type *);
 
 #endif
