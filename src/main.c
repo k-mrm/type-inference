@@ -24,17 +24,17 @@ int main(void) {
 
     init(env);
 
-    Type *a = analyze(
-        env,
-        integer(200)
-    );
-    typedump(a);
+    Expr *els[] = {
+        integer(200),
+        var("choko"),
+        var("<"),
+    };
 
-    Type *b = analyze(env, var("choko"));
-    typedump(b);
-
-    Type *c = analyze(env, var("<"));
-    typedump(c);
+    for(int i = 0; i < 3; i++) {
+        exprdump(els[i]);
+        printf(" : ");
+        typedump(analyze(env, els[i]));
+    }
 
     return 0;
 }

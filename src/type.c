@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-char tvar_name = 'a';
+char unique_name = 'a';
 int cur_id = 0;
 
 Type *type_operator0(enum TypeKind k) {

@@ -12,55 +12,45 @@ enum ExprKind {
     LETREC,
 };
 
-struct Expr {
-    enum ExprKind kind;
-};
-
 typedef struct Expr Expr;
 
-typedef struct Integer Integer;
-typedef struct Var Var;
-typedef struct Lambda Lambda;
-typedef struct Let Let;
-typedef struct Apply Apply;
-typedef struct Let Let;
-typedef struct Letrec Letrec;
+struct Expr {
+    enum ExprKind kind;
 
-struct Integer {
-    EXPR_BASE;
-    int num;
+    union {
+        /* Integer  */
+        struct {
+            int num;
+        };
+        /* Var  */
+        struct {
+            char *name;
+        };
+        /* Lambda  */
+        struct {
+            char *x;
+            Expr *e;
+        };
+        /* Apply  */
+        struct {
+            Expr *fn,
+                 *arg;
+        };
+        /* Let  */
+        struct {
+            char *lname;
+            Expr *ldef,
+                 *lbody;
+        };
+        /* Letrec  */
+        struct {
+            char *recname;
+            Expr *recdef,
+                 *recbody
+        };
+    };
 };
 
-struct Var {
-    EXPR_BASE;
-    char *name;
-};
-
-struct Lambda {
-    EXPR_BASE;
-    char *x;
-    Expr *e;
-};
-
-struct Apply {
-    EXPR_BASE;
-    Expr *fn,
-         *arg;
-};
-
-struct Let {
-    EXPR_BASE;
-    char *name;
-    Expr *def,
-         *body;
-};
-
-struct Letrec {
-    EXPR_BASE;
-    char *name;
-    Expr *def,
-         *body;
-};
 
 Expr *integer(int);
 Expr *var(char *);
@@ -69,6 +59,7 @@ Expr *apply(Expr *, Expr *);
 Expr *let(char *, Expr *, Expr *);
 Expr *letrec(char *, Expr *, Expr *);
 Expr *binary(Expr *, char *, Expr *);
+void exprdump(Expr *); 
 
 
 #endif
