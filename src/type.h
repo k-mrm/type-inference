@@ -28,7 +28,7 @@ struct Type {
             Type *result;
         };
 
-        /* Type Variable  */
+        /* Type Variable */
         struct {
             int id;
             char name;

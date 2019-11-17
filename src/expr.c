@@ -76,7 +76,7 @@ void exprdump(Expr *e) {
         printf("%s", e->name);
         break;
     case LAMBDA:
-        printf("\\%s -> ", e->x);
+        printf("λ%s -> ", e->x);
         exprdump(e->e);
         break;
     case APPLY:

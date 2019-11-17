@@ -17,6 +17,10 @@ Type *prune(Type *ty) {
     return ty;
 }
 
+Type *subst(Env *env, Type *t1) {
+    ;
+}
+
 void unify(Type *t1, Type *t2) {
     t1 = prune(t1);
     t2 = prune(t2);
@@ -74,6 +78,9 @@ Type *analyze(Env *env, Expr *e) {
         Type *fn = analyze(env, e->fn);
         Type *arg = analyze(env, e->arg);
         Type *res = type_var(); 
+
+        unify(fn, type_fn(arg, res));
+
         break;
     }
     case LET: {
