@@ -60,14 +60,14 @@ Type *analyze(Env *env, Expr *e) {
     case INTEGER:
         return type_int();
     case VAR: {
-        TypeScheme *ty = lookup(env, e->name);
+        Type *ty = lookup(env, e->name);
 
         if(ty == NULL) {
             printf("unknown: `%s`\n", e->name);
             return NULL;
         }
 
-        return ty->body;
+        return ty;
     }
     case LAMBDA: {
         Type *arg = type_var();

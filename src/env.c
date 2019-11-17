@@ -1,5 +1,4 @@
 #include "env.h"
-#include "typescheme.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -21,14 +20,14 @@ Env *copy_env(Env *src) {
     return dst;
 }
 
-void add_symbol(Env *self, char *sym, TypeScheme *type) {
+void add_symbol(Env *self, char *sym, Type *type) {
     self->current->key = sym; 
     self->current->type = type;
     self->current++;
     self->cursor++;
 }
 
-TypeScheme *lookup(Env *self, char *key) {
+Type *lookup(Env *self, char *key) {
     for(int i = 0; i < self->cursor; i++) {
         if(strcmp(key, self->ls[i].key) == 0) {
             return self->ls[i].type;

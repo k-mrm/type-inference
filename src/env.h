@@ -2,14 +2,13 @@
 #define TI_ENV_H
 
 #include "type.h"
-#include "typescheme.h"
 
 typedef struct TupleST TupleST;
 typedef struct Env Env;
 
 struct TupleST {
     char *key;
-    TypeScheme *type;
+    Type *type;
 };
 
 struct Env {
@@ -20,7 +19,7 @@ struct Env {
 
 Env *new_env();
 Env *copy_env(Env *);
-void add_symbol(Env *, char *, TypeScheme *);
-TypeScheme *lookup(Env *, char *);
+void add_symbol(Env *, char *, Type *);
+Type *lookup(Env *, char *);
 
 #endif
