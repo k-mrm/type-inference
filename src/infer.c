@@ -56,23 +56,33 @@ Type *analyze(Env *env, Expr *e) {
     case INTEGER:
         return type_int();
     case VAR: {
-        Type *ty = lookup(env, ((Var *)e)->name);
+        Type *ty = lookup(env, e->name);
 
         if(ty == NULL) {
-            printf("unknown: `%s`\n", ((Var *)e)->name);
+            printf("unknown: `%s`\n", e->name);
         }
 
         return ty;
     }
-    case LAMBDA:
+    case LAMBDA: {
+        Type *arg = type_var();
+
+        break;
+    }
     case APPLY: {
-        Type *fn = analyze(env, ((Apply *)e)->fn);
-        Type *arg = analyze(env, ((Apply *)e)->arg);
+        Type *fn = analyze(env, e->fn);
+        Type *arg = analyze(env, e->arg);
         Type *res = type_var(); 
         break;
     }
-    case LET:
-    case LETREC:
+    case LET: {
+        Type *def = analyze(env, e->ldef);
+
+        break;
+    }
+    case LETREC: {
+        break;
+    }
     default:
         printf("internal error");
     }

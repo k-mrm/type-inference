@@ -18,31 +18,31 @@ struct Expr {
     enum ExprKind kind;
 
     union {
-        /* Integer  */
+        /* Integer */
         struct {
             int num;
         };
-        /* Var  */
+        /* Var */
         struct {
             char *name;
         };
-        /* Lambda  */
+        /* Lambda */
         struct {
             char *x;
             Expr *e;
         };
-        /* Apply  */
+        /* Apply */
         struct {
             Expr *fn,
                  *arg;
         };
-        /* Let  */
+        /* Let */
         struct {
             char *lname;
             Expr *ldef,
                  *lbody;
         };
-        /* Letrec  */
+        /* Letrec */
         struct {
             char *recname;
             Expr *recdef,
