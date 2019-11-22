@@ -1,4 +1,6 @@
 #include "type.h"
+#include "infer.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -93,6 +95,9 @@ void typedump_core(Type *ty) {
         break;
     }
     case TVAR: {
+        if(ty->instance != NULL) {
+            typedump_core(prune(ty));
+        }
         printf("%c", ty->name);
         break;
     }

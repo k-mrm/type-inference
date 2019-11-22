@@ -68,9 +68,14 @@ Type *analyze(Env *env, Expr *e) {
         return ty;
     }
     case LAMBDA: {
-        Type *arg = type_var();
+        Type *argty = type_var();
 
-        break;
+        Env *copied_env = copy_env(env);
+        add_to_env(copied_env, e->x, argty);
+
+        Type *ret = analyze(copied_env, e->e);
+
+        return type_fn(argty, ret);
     }
     case APPLY: {
         Type *fn = analyze(env, e->fn);

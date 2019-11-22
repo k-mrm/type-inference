@@ -32,7 +32,14 @@ int main(void) {
         var("<"),
         let("x", integer(10), var("x")),
         let("y", var("false"), var("y")),
-        let("a", integer(200), binary(var("a"), "+", integer(210))),
+        let("z", integer(200), binary(var("z"), "+", integer(210))),
+        lambda(
+            "a",
+            lambda(
+                "b",
+                binary(var("a"), ">", var("b"))
+            )
+        ),
     };
 
     int nels = sizeof(els) / sizeof(els[0]);
