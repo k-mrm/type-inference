@@ -17,10 +17,6 @@ Type *prune(Type *ty) {
     return ty;
 }
 
-Type *subst(Env *env, Type *t1) {
-    ;
-}
-
 void unify(Type *t1, Type *t2) {
     t1 = prune(t1);
     t2 = prune(t2);
@@ -63,7 +59,7 @@ Type *analyze(Env *env, Expr *e) {
         Type *ty = lookup(env, e->name);
 
         if(ty == NULL) {
-            printf("unknown: `%s`\n", e->name);
+            printf("unknown identifer `%s`\n", e->name);
             return NULL;
         }
 
@@ -81,12 +77,15 @@ Type *analyze(Env *env, Expr *e) {
 
         unify(fn, type_fn(arg, res));
 
-        break;
+        return res;
     }
     case LET: {
         Type *def = analyze(env, e->ldef);
 
-        break;
+        Env *new = copy_env(env);
+        add_to_env(new, e->lname, def);
+
+        return analyze(new, e->lbody);
     }
     case LETREC: {
         break;

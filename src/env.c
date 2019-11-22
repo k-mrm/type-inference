@@ -17,10 +17,12 @@ Env *copy_env(Env *src) {
 
     memcpy(dst, src, sizeof(Env));
 
+    dst->current = dst->ls + src->cursor; 
+
     return dst;
 }
 
-void add_symbol(Env *self, char *sym, Type *type) {
+void add_to_env(Env *self, char *sym, Type *type) {
     self->current->key = sym; 
     self->current->type = type;
     self->current++;

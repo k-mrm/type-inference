@@ -19,7 +19,7 @@ struct Env {
 
 Env *new_env();
 Env *copy_env(Env *);
-void add_symbol(Env *, char *, Type *);
+void add_to_env(Env *, char *, Type *);
 Type *lookup(Env *, char *);
 
 #endif

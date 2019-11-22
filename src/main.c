@@ -13,12 +13,12 @@ void init(Env *env) {
     Int = type_int();
     Bool = type_bool();
 
-    add_symbol(env, "true", Bool);
-    add_symbol(env, "false", Bool);
-    add_symbol(env, "+", type_fn(Int, type_fn(Int, Int)));
-    add_symbol(env, "*", type_fn(Int, type_fn(Int, Int)));
-    add_symbol(env, ">", type_fn(Int, type_fn(Int, Bool)));
-    add_symbol(env, "<", type_fn(Int, type_fn(Int, Bool)));
+    add_to_env(env, "true", Bool);
+    add_to_env(env, "false", Bool);
+    add_to_env(env, "+", type_fn(Int, type_fn(Int, Int)));
+    add_to_env(env, "*", type_fn(Int, type_fn(Int, Int)));
+    add_to_env(env, ">", type_fn(Int, type_fn(Int, Bool)));
+    add_to_env(env, "<", type_fn(Int, type_fn(Int, Bool)));
 }
 
 int main(void) {
@@ -30,9 +30,11 @@ int main(void) {
         integer(200),
         var("choko"),
         var("<"),
+        let("x", integer(10), var("x")),
+        let("y", var("false"), var("y")),
     };
 
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < 5; i++) {
         exprdump(els[i]);
         printf(" : ");
         typedump(analyze(env, els[i]));
