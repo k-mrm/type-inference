@@ -34,9 +34,9 @@ void unify(Type *t1, Type *t2) {
             is_type_operator(t2)) {
         if(t1->kind != t2->kind || t1->ntype != t2->ntype) {
             printf("type error: ");
-            typedump(t1);
+            typedump_core(t1);
             printf(", ");
-            typedump(t2);
+            typedump_core(t2);
             puts("");
 
             return;

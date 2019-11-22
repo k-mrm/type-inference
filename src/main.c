@@ -40,6 +40,23 @@ int main(void) {
                 binary(var("a"), ">", var("b"))
             )
         ),
+        let(
+            "add",
+            lambda(
+                "a",
+                lambda(
+                    "b",
+                    binary(var("a"), "+", var("b"))
+                )
+            ),
+            apply(
+                apply(
+                    var("add"),
+                    integer(100)
+                ),
+                integer(200)
+            )
+        ),
     };
 
     int nels = sizeof(els) / sizeof(els[0]);
@@ -47,7 +64,9 @@ int main(void) {
     for(int i = 0; i < nels; i++) {
         exprdump(els[i]);
         printf(" : ");
+        printf("\e[1m");
         typedump(prune(analyze(env, els[i])));
+        printf("\e[0m");
     }
 
     return 0;
