@@ -6,7 +6,6 @@
 Env *new_env() {
     Env *self = malloc(sizeof(Env));
 
-    self->current = self->ls;
     self->cursor = 0;
 
     return self;
@@ -17,22 +16,19 @@ Env *copy_env(Env *src) {
 
     memcpy(dst, src, sizeof(Env));
 
-    dst->current = dst->ls + src->cursor; 
-
     return dst;
 }
 
 void add_to_env(Env *self, char *sym, Type *type) {
-    self->current->key = sym; 
-    self->current->type = type;
-    self->current++;
+    self->list[self->cursor].key = sym; 
+    self->list[self->cursor].type = type;
     self->cursor++;
 }
 
 Type *lookup(Env *self, char *key) {
     for(int i = 0; i < self->cursor; i++) {
-        if(strcmp(key, self->ls[i].key) == 0) {
-            return self->ls[i].type;
+        if(strcmp(key, self->list[i].key) == 0) {
+            return self->list[i].type;
         }
     }
 

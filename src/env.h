@@ -12,8 +12,7 @@ struct TupleST {
 };
 
 struct Env {
-    TupleST ls[128];
-    TupleST *current;
+    TupleST list[128];
     unsigned int cursor;
 };
 
