@@ -46,7 +46,7 @@ struct Expr {
         struct {
             char *recname;
             Expr *recdef,
-                 *recbody
+                 *recbody;
         };
     };
 };

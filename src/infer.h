@@ -4,6 +4,7 @@
 #include "env.h"
 #include "expr.h"
 
+Type *prune(Type *);
 Type *analyze(Env *, Expr *);
 
 

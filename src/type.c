@@ -63,7 +63,16 @@ bool is_type_operator(Type *ty) {
 }
 
 bool same_type(Type *t1, Type *t2) {
-    ;
+    if(t1 == NULL || t2 == NULL) {
+        puts("NULL error");
+        return false;
+    }
+
+    if(t1->kind != t2->kind) {
+        return false;
+    }
+
+    return true;
 }
 
 void typedump(Type *ty) {

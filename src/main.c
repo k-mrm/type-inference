@@ -32,12 +32,15 @@ int main(void) {
         var("<"),
         let("x", integer(10), var("x")),
         let("y", var("false"), var("y")),
+        let("a", integer(200), binary(var("a"), "+", integer(210))),
     };
 
-    for(int i = 0; i < 5; i++) {
+    int nels = sizeof(els) / sizeof(els[0]);
+
+    for(int i = 0; i < nels; i++) {
         exprdump(els[i]);
         printf(" : ");
-        typedump(analyze(env, els[i]));
+        typedump(prune(analyze(env, els[i])));
     }
 
     return 0;

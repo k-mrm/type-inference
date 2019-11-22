@@ -43,6 +43,7 @@ Type *type_fn(Type *, Type *);
 Type *type_var(void);
 bool is_type_variable(Type *);
 bool is_type_operator(Type *);
+bool same_type(Type *, Type *);
 
 void typedump(Type *);
 void typedump_core(Type *);

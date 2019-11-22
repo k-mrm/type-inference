@@ -82,7 +82,7 @@ void exprdump(Expr *e) {
     case APPLY:
         exprdump(e->fn);
         printf(" ");
-        exprdump(e->fn);
+        exprdump(e->arg);
         break;
     case LET:
         printf("let %s = ", e->lname);

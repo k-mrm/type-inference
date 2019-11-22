@@ -22,7 +22,9 @@ void unify(Type *t1, Type *t2) {
     t2 = prune(t2);
 
     if(is_type_variable(t1)) {
-        ;
+        if(!same_type(t1, t2)) {
+            t1->instance = t2;
+        }
     }
     else if(is_type_operator(t1) &&
             is_type_variable(t2)) {
@@ -45,7 +47,7 @@ void unify(Type *t1, Type *t2) {
         }
     }
     else {
-        printf("cannot infer");
+        puts("cannot infer");
     }
 }
 
