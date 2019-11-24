@@ -3,9 +3,10 @@
 
 #include "env.h"
 #include "expr.h"
+#include "nongeneric.h"
 
 Type *prune(Type *);
-Type *analyze(Env *, Expr *);
+Type *analyze(Env *, Expr *, NonGeneric *);
 
 
 #endif

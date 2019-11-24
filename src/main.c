@@ -65,7 +65,7 @@ int main(void) {
         exprdump(els[i]);
         printf(" : ");
         printf("\e[1m");
-        typedump(prune(analyze(env, els[i])));
+        typedump(prune(analyze(env, els[i], NULL)));
         printf("\e[0m");
     }
 

@@ -3,6 +3,7 @@
 
 #include "infer.h"
 #include "type.h"
+#include "nongeneric.h"
 
 Type *prune(Type *ty) {
     if(ty == NULL) return NULL;
@@ -15,6 +16,14 @@ Type *prune(Type *ty) {
     }
 
     return ty;
+}
+
+Type *occursin_type() {
+    ;
+}
+
+Type *occursin() {
+    ;
 }
 
 Type *fresh(Type *t) {
@@ -55,8 +64,10 @@ void unify(Type *t1, Type *t2) {
     }
 }
 
-Type *analyze(Env *env, Expr *e) {
-    assert(e);
+Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
+    if(nongeneric == NULL) {
+        nongeneric = new_non_generic();
+    }
 
     switch(e->kind) {
     case INTEGER:
@@ -77,13 +88,16 @@ Type *analyze(Env *env, Expr *e) {
         Env *copied_env = copy_env(env);
         add_to_env(copied_env, e->x, argty);
 
-        Type *ret = analyze(copied_env, e->e);
+        NonGeneric *copied_ng = copy_non_generic(nongeneric);
+        add_to_non_generic(copied_ng, argty);
+
+        Type *ret = analyze(copied_env, e->e, copied_ng);
 
         return type_fn(argty, ret);
     }
     case APPLY: {
-        Type *fn = analyze(env, e->fn);
-        Type *arg = analyze(env, e->arg);
+        Type *fn = analyze(env, e->fn, nongeneric);
+        Type *arg = analyze(env, e->arg, nongeneric);
         Type *res = type_var(); 
 
         unify(fn, type_fn(arg, res));
@@ -91,12 +105,12 @@ Type *analyze(Env *env, Expr *e) {
         return res;
     }
     case LET: {
-        Type *def = analyze(env, e->ldef);
+        Type *def = analyze(env, e->ldef, nongeneric);
 
         Env *new = copy_env(env);
         add_to_env(new, e->lname, def);
 
-        return analyze(new, e->lbody);
+        return analyze(new, e->lbody, nongeneric);
     }
     case LETREC: {
         break;
