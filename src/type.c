@@ -74,6 +74,13 @@ bool same_type(Type *t1, Type *t2) {
         return false;
     }
 
+    if(is_type_operator(t1)) {
+        for(int i = 0; i < t1->ntype; i++) {
+            if(!same_type(t1->types[i], t2->types[i]))
+                return false;
+        }
+    }
+
     return true;
 }
 

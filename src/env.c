@@ -14,7 +14,7 @@ Env *new_env() {
 Env *copy_env(Env *src) {
     Env *dst = malloc(sizeof(Env));
 
-    memcpy(dst, src, sizeof(Env));
+    *dst = *src;
 
     return dst;
 }

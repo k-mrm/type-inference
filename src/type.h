@@ -1,8 +1,6 @@
 #ifndef TI_TYPE_H
 #define TI_TYPE_H
 
-#define TYPE_BASE Type base;
-
 #include <stdbool.h>
 
 enum TypeKind {

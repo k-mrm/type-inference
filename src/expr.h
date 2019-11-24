@@ -1,8 +1,6 @@
 #ifndef TI_EXPR_H
 #define TI_EXPR_H
 
-#define EXPR_BASE Expr base
-
 enum ExprKind {
     INTEGER,
     VAR,

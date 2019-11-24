@@ -17,6 +17,10 @@ Type *prune(Type *ty) {
     return ty;
 }
 
+Type *fresh(Type *t) {
+    ;
+}
+
 void unify(Type *t1, Type *t2) {
     t1 = prune(t1);
     t2 = prune(t2);
