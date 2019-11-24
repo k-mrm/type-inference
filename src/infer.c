@@ -4,6 +4,11 @@
 #include "infer.h"
 #include "type.h"
 #include "nongeneric.h"
+#include "util.h"
+
+static bool is_generic(Type *, NonGeneric *);
+static bool occursin(Type *, Type *);
+static bool occursin_type(Type *, Type *);
 
 Type *prune(Type *ty) {
     if(ty == NULL) return NULL;
@@ -18,16 +23,50 @@ Type *prune(Type *ty) {
     return ty;
 }
 
-Type *occursin_type() {
-    ;
+/*
+ *  型変数がnon-generic変数のリストに出現するか
+ *  出現したら -> false
+ *  しなかったら -> true
+ */
+static bool is_generic(Type *tvar, NonGeneric *nongeneric) {
+    for(int i = 0; i < nongeneric->cursor; i++) {
+        if(occursin_type(tvar, nongeneric->list[i]))
+            return false;
+    }
+
+    return true;
 }
 
-Type *occursin() {
-    ;
+static bool occursin_type(Type *tvar, Type *texp) {
+    texp = prune(texp);
+
+    if(is_type_variable(texp)) {
+        return same_type(tvar, texp);
+    }
+    else if(is_type_operator(texp)) {
+        return occursin(tvar, texp);
+    }
+    else return false;
 }
 
+
+/*
+ * 型変数が出現するかチェックする
+ */
+static bool occursin(Type *t1, Type *t2) {
+    for(int i = 0; i < t2->ntype; i++) {
+        if(occursin_type(t1, t2->types[i])) return true;
+    }
+
+    return false;
+}
+
+/*
+ *  type_operatorはコピーを作成し，generic変数は複製
+ *  non-generic変数は共有
+ */
 Type *fresh(Type *t) {
-    ;
+    Map *mappings = New_Map();
 }
 
 void unify(Type *t1, Type *t2) {

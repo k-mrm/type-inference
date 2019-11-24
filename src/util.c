@@ -49,3 +49,17 @@ void *vec_pop(Vector *self) {
 }
 
 void *vec_last(Vector *self) { return self->data[self->len - 1]; }
+
+Map *New_Map() {
+    Map *self = malloc(sizeof(Map));
+
+    self->key = New_Vector();
+    self->value = New_Vector();
+
+    return self;
+}
+
+void map_push(Map *self, void *key, void *value) {
+    vec_push(self->key, key);
+    vec_push(self->value, value);
+}

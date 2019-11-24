@@ -1,6 +1,6 @@
 An implementaion of Hindley-Milner type inference in C.
 
-Reference:
+## Reference
 - https://github.com/semahawk/type-inference
 - https://qiita.com/reki2000/items/b7f26e65930519295355
 - http://lucacardelli.name/Papers/BasicTypechecking.pdf

@@ -14,4 +14,12 @@ void vec_push(Vector *self, void *d);
 void *vec_pop(Vector *self);
 void *vec_last(Vector *self);
 
+typedef struct Map {
+    Vector *key;
+    Vector *value;
+} Map;
+
+Map *New_Map(void);
+void map_push(Map *, void *, void *);
+
 #endif
