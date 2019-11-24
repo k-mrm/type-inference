@@ -67,6 +67,19 @@ static bool occursin(Type *t1, Type *t2) {
  */
 Type *fresh(Type *t) {
     Map *mappings = New_Map();
+
+    Type *freshrec(Type *ty) {
+        Type *pty = prune(ty);
+
+        if(is_type_variable(pty)) {
+            ;
+        }
+        else if(is_type_operator(pty)) {
+            ;
+        }
+    }
+
+    return freshrec(t);
 }
 
 void unify(Type *t1, Type *t2) {

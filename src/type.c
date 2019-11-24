@@ -105,7 +105,12 @@ void typedump_core(Type *ty) {
         if(ty->instance != NULL) {
             typedump_core(prune(ty));
         }
-        printf("%c", ty->name);
+        else if(ty->name == 0) {
+            printf("%c", ty->name = unique_name++);
+        }
+        else {
+            printf("%c", ty->name);
+        }
         break;
     }
     default:        printf("error");

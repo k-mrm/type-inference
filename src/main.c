@@ -57,6 +57,10 @@ int main(void) {
                 integer(200)
             )
         ),
+        lambda(
+            "x",
+            var("x")
+        ),
     };
 
     int nels = sizeof(els) / sizeof(els[0]);
