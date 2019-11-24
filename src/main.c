@@ -19,6 +19,7 @@ void init(Env *env) {
     add_to_env(env, "*", type_fn(Int, type_fn(Int, Int)));
     add_to_env(env, ">", type_fn(Int, type_fn(Int, Bool)));
     add_to_env(env, "<", type_fn(Int, type_fn(Int, Bool)));
+    add_to_env(env, "test", type_fn(Int, type_fn(Bool, Int)));
 }
 
 int main(void) {
@@ -57,9 +58,15 @@ int main(void) {
                 integer(200)
             )
         ),
-        lambda(
-            "x",
-            var("x")
+        lambda("x", var("x")),
+        let(
+            "f",
+            lambda("x", var("x")),
+            binary(
+                apply(var("f"), integer(200)),
+                "test",
+                apply(var("f"), var("true"))
+            )
         ),
     };
 
