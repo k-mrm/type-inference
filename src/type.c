@@ -20,6 +20,17 @@ Type *type_operator0(enum TypeKind k) {
     return self;
 }
 
+Type *type_operator2(enum TypeKind k, Type *a1, Type *a2) {
+    Type *self = malloc(sizeof(Type));
+
+    self->kind = k;
+    self->ntype = 2;
+    self->types[0] = a1;
+    self->types[1] = a2;
+
+    return self;
+}
+
 Type *type_int() {
     return type_operator0(TINT);
 }
@@ -29,14 +40,10 @@ Type *type_bool() {
 }
 
 Type *type_fn(Type *a, Type *r) {
-    Type *self = malloc(sizeof(Type));
+    Type *self = type_operator2(TFN, a, r);
 
-    self->kind = TFN;
     self->arg = a;
     self->result = r;
-    self->ntype = 2;
-    self->types[0] = a;
-    self->types[1] = r;
 
     return (Type *)self;
 }

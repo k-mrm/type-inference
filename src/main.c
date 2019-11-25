@@ -67,7 +67,7 @@ int main(void) {
                 "test",
                 apply(var("f"), var("true"))
             )
-        ),
+        ),  // TODO: error
     };
 
     int nels = sizeof(els) / sizeof(els[0]);

@@ -43,6 +43,9 @@ bool is_type_variable(Type *);
 bool is_type_operator(Type *);
 bool same_type(Type *, Type *);
 
+Type *type_operator0(enum TypeKind);
+Type *type_operator2(enum TypeKind, Type *, Type *);
+
 void typedump(Type *);
 void typedump_core(Type *);
 

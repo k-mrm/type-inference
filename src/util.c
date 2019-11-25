@@ -63,3 +63,4 @@ void map_push(Map *self, void *key, void *value) {
     vec_push(self->key, key);
     vec_push(self->value, value);
 }
+

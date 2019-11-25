@@ -7,6 +7,7 @@
 
 Type *prune(Type *);
 Type *analyze(Env *, Expr *, NonGeneric *);
+Type *fresh(Type *, NonGeneric *);
 
 
 #endif

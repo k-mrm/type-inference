@@ -61,21 +61,52 @@ static bool occursin(Type *t1, Type *t2) {
     return false;
 }
 
+Type *type_map_exist(Map *self, Type *key) {
+    for(int i = 0; i < self->key->len; i++) {
+        if(same_type((Type *)self->key->data[i], key)) {
+            return (Type *)self->value->data[i];
+        }
+    }
+
+    return NULL;
+}
+
+Type *type_get_or_put(Map *self, Type *key, Type *default_value) {
+    Type *e = type_map_exist(self, key);
+    if(e != NULL) {
+        return e;
+    }
+    else {
+        map_push(self, key, default_value);
+        return default_value;
+    }
+}
+
 /*
  *  type_operatorはコピーを作成し，generic変数は複製
  *  non-generic変数は共有
  */
-Type *fresh(Type *t) {
+Type *fresh(Type *t, NonGeneric *nongeneric) {
     Map *mappings = New_Map();
 
     Type *freshrec(Type *ty) {
         Type *pty = prune(ty);
 
         if(is_type_variable(pty)) {
-            ;
+            if(is_generic(pty, nongeneric)) {
+                return type_get_or_put(mappings, pty, type_var());
+            }
+            else return pty;
         }
         else if(is_type_operator(pty)) {
-            ;
+            switch(pty->ntype) {
+            case 0: return type_operator0(pty->kind);
+            case 2: return type_operator2(
+                               pty->kind,
+                               freshrec(pty->types[0]),
+                               freshrec(pty->types[1])
+                           );
+            }
         }
     }
 
@@ -125,7 +156,7 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
     case INTEGER:
         return type_int();
     case VAR: {
-        Type *ty = lookup(env, e->name);
+        Type *ty = lookup(env, e->name, nongeneric);
 
         if(ty == NULL) {
             printf("unknown identifer `%s`\n", e->name);
