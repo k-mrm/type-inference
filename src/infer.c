@@ -86,31 +86,31 @@ Type *type_get_or_put(Map *self, Type *key, Type *default_value) {
  *  type_operatorはコピーを作成し，generic変数は複製
  *  non-generic変数は共有
  */
+Type *freshrec(Type *ty, NonGeneric *nongeneric, Map *mappings) {
+    Type *pty = prune(ty);
+
+    if(is_type_variable(pty)) {
+        if(is_generic(pty, nongeneric)) {
+            return type_get_or_put(mappings, pty, type_var());
+        }
+        else return pty;
+    }
+    else if(is_type_operator(pty)) {
+        switch(pty->ntype) {
+        case 0: return type_operator0(pty->kind);
+        case 2: return type_operator2(
+                           pty->kind,
+                           freshrec(pty->types[0], nongeneric, mappings),
+                           freshrec(pty->types[1], nongeneric, mappings)
+                       );
+        }
+    }
+}
+
 Type *fresh(Type *t, NonGeneric *nongeneric) {
     Map *mappings = New_Map();
 
-    Type *freshrec(Type *ty) {
-        Type *pty = prune(ty);
-
-        if(is_type_variable(pty)) {
-            if(is_generic(pty, nongeneric)) {
-                return type_get_or_put(mappings, pty, type_var());
-            }
-            else return pty;
-        }
-        else if(is_type_operator(pty)) {
-            switch(pty->ntype) {
-            case 0: return type_operator0(pty->kind);
-            case 2: return type_operator2(
-                               pty->kind,
-                               freshrec(pty->types[0]),
-                               freshrec(pty->types[1])
-                           );
-            }
-        }
-    }
-
-    return freshrec(t);
+    return freshrec(t, nongeneric, mappings);
 }
 
 void unify(Type *t1, Type *t2) {

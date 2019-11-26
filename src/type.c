@@ -99,6 +99,11 @@ void typedump(Type *ty) {
 }
 
 void typedump_core(Type *ty) {
+    if(ty == NULL) {
+        printf("null");
+        return;
+    }
+
     switch(ty->kind) {
     case TINT:      printf("int");  break;
     case TBOOL:     printf("bool"); break;

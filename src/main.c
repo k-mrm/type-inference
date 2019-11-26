@@ -30,7 +30,8 @@ int main(void) {
     Expr *els[] = {
         integer(200),
         var("choko"),
-        var("<"),
+        var("+"),
+        var("true"),
         let("x", integer(10), var("x")),
         let("y", var("false"), var("y")),
         let("z", integer(200), binary(var("z"), "+", integer(210))),
