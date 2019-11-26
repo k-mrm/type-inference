@@ -28,6 +28,15 @@ Type *type_operator2(enum TypeKind k, Type *a1, Type *a2) {
     self->types[0] = a1;
     self->types[1] = a2;
 
+    switch(k) {
+    case TFN:
+        self->arg = a1;
+        self->result = a2;
+        break;
+    default:
+        break;
+    }
+
     return self;
 }
 
@@ -40,12 +49,7 @@ Type *type_bool() {
 }
 
 Type *type_fn(Type *a, Type *r) {
-    Type *self = type_operator2(TFN, a, r);
-
-    self->arg = a;
-    self->result = r;
-
-    return (Type *)self;
+    return type_operator2(TFN, a, r);
 }
 
 Type *type_var() {

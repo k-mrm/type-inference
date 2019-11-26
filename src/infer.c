@@ -103,6 +103,8 @@ Type *freshrec(Type *ty, NonGeneric *nongeneric, Map *mappings) {
                            freshrec(pty->types[0], nongeneric, mappings),
                            freshrec(pty->types[1], nongeneric, mappings)
                        );
+        default:
+                puts("????");
         }
     }
 }
