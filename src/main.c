@@ -19,6 +19,7 @@ void init(Env *env) {
     add_to_env(env, "true", Bool);
     add_to_env(env, "false", Bool);
     add_to_env(env, "+", type_fn(Int, type_fn(Int, Int)));
+    add_to_env(env, "-", type_fn(Int, type_fn(Int, Int)));
     add_to_env(env, "*", type_fn(Int, type_fn(Int, Int)));
     add_to_env(env, ">", type_fn(Int, type_fn(Int, Bool)));
     add_to_env(env, "<", type_fn(Int, type_fn(Int, Bool)));
@@ -28,6 +29,16 @@ void init(Env *env) {
                                 type_fn(var2, type_pair(var1, var2))
                             )
     );
+
+    Type *var3 = type_var();
+    Type *var4 = type_var();
+    add_to_env(env, "fst", type_fn(type_pair(var3, var4), var3));
+    Type *var5 = type_var();
+    Type *var6 = type_var();
+    add_to_env(env, "snd", type_fn(type_pair(var5, var6), var6));
+
+    Type *var7 = type_var();
+    add_to_env(env, "if", type_fn(Bool, type_fn(var7, type_fn(var7, var7))));
 }
 
 int main(void) {
@@ -41,6 +52,8 @@ int main(void) {
         var("+"),
         var("true"),
         var("pair"),
+        var("fst"),
+        var("snd"),
         let("x", integer(10), var("x")),
         let("y", var("false"), var("y")),
         let("z", integer(200), binary(var("z"), "+", integer(210))),
@@ -69,6 +82,7 @@ int main(void) {
             )
         ),
         lambda("x", var("x")),
+        lambda("n", lambda("m", integer(300))),
         let(
             "f",
             lambda("x", var("x")),
@@ -79,7 +93,48 @@ int main(void) {
                 ),
                 apply(var("f"), var("true"))
             )
-        )
+        ),
+        apply(
+            var("fst"),
+            apply(
+                apply(var("pair"), var("false")),
+                integer(100000)
+            )
+        ),
+        apply(
+            var("snd"),
+            apply(
+                apply(var("pair"), var("false")),
+                integer(100000)
+            )
+        ),
+        letrec(     // let rec fibo n = if n < 2 then n else fibo(n - 2) + fibo(n - 1)
+            "fibo",
+            lambda(
+                "n",
+                apply(
+                    apply(
+                        apply(
+                            var("if"),
+                            binary(var("n"), "<", integer(2))
+                        ),
+                        var("n")
+                    ),
+                    binary(
+                        apply(
+                            var("fibo"),
+                            binary(var("n"), "-", integer(2))
+                        ),
+                        "+",
+                        apply(
+                            var("fibo"),
+                            binary(var("n"), "-", integer(1))
+                        )
+                    )
+                )
+            ),
+            apply(var("fibo"), integer(30))
+        ),
     };
 
     int nels = sizeof(els) / sizeof(els[0]);

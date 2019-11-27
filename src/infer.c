@@ -53,9 +53,9 @@ static bool occursin_type(Type *tvar, Type *texp) {
 /*
  * 型変数が出現するかチェックする
  */
-static bool occursin(Type *t1, Type *t2) {
-    for(int i = 0; i < t2->ntype; i++) {
-        if(occursin_type(t1, t2->types[i])) return true;
+static bool occursin(Type *ty, Type *tope) {
+    for(int i = 0; i < tope->ntype; i++) {
+        if(occursin_type(ty, tope->types[i])) return true;
     }
 
     return false;
@@ -73,6 +73,7 @@ Type *type_map_exist(Map *self, Type *key) {
 
 Type *type_get_or_put(Map *self, Type *key, Type *default_value) {
     Type *e = type_map_exist(self, key);
+
     if(e != NULL) {
         return e;
     }
@@ -121,6 +122,9 @@ void unify(Type *t1, Type *t2) {
 
     if(is_type_variable(t1)) {
         if(!same_type(t1, t2)) {
+            if(occursin_type(t1, t2)) {
+                printf("recursive unification");
+            }
             t1->instance = t2;
         }
     }
@@ -198,7 +202,19 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
         return analyze(new, e->lbody, nongeneric);
     }
     case LETREC: {
-        break;
+        Type *new = type_var();
+
+        Env *new_env = copy_env(env);
+        NonGeneric *new_nongeneric = copy_non_generic(nongeneric);
+
+        add_to_env(new_env, e->recname, new);
+        add_to_non_generic(new_nongeneric, new);
+
+        Type *def = analyze(new_env, e->recdef, new_nongeneric);
+
+        unify(new, def);
+
+        return analyze(new_env, e->recbody, new_nongeneric);
     }
     default:
         printf("internal error");

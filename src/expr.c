@@ -80,9 +80,11 @@ void exprdump(Expr *e) {
         exprdump(e->e);
         break;
     case APPLY:
+        printf("(");
         exprdump(e->fn);
         printf(" ");
         exprdump(e->arg);
+        printf(")");
         break;
     case LET:
         printf("let %s = ", e->lname);
@@ -91,7 +93,7 @@ void exprdump(Expr *e) {
         exprdump(e->lbody);
         break;
     case LETREC:
-        printf("letrec %s = ", e->recname);
+        printf("let rec %s = ", e->recname);
         exprdump(e->recdef);
         printf(" in ");
         exprdump(e->recbody);
