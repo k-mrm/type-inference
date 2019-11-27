@@ -108,6 +108,9 @@ Type *freshrec(Type *ty, NonGeneric *nongeneric, Map *mappings) {
                 puts("????");
         }
     }
+
+    /* unreachable */
+    return NULL;
 }
 
 Type *fresh(Type *t, NonGeneric *nongeneric) {

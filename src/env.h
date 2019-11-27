@@ -14,7 +14,7 @@ struct TupleST {
 
 struct Env {
     TupleST list[128];
-    unsigned int cursor;
+    int cursor;
 };
 
 Env *new_env();
