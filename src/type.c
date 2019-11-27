@@ -53,12 +53,7 @@ Type *type_fn(Type *a, Type *r) {
 }
 
 Type *type_var() {
-    Type *self = malloc(sizeof(Type));
-
-    self->kind = TVAR;
-    self->ntype = 0;
-    self->types[0] = NULL;
-    self->types[1] = NULL;
+    Type *self = type_operator0(TVAR);
 
     self->id = cur_id++;
     self->name = 0;
