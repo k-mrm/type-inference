@@ -1,4 +1,4 @@
-An implementaion of Hindley-Milner type inference in C.
+An implementation of Hindley-Milner type inference in C.
 
 ## Example
 
