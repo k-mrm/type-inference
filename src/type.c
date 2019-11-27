@@ -7,7 +7,7 @@
 #include <assert.h>
 
 char unique_name = 'a';
-int cur_id = 0;
+int unique_id = 0;
 
 Type *type_operator0(enum TypeKind k) {
     Type *self = malloc(sizeof(Type));
@@ -33,6 +33,10 @@ Type *type_operator2(enum TypeKind k, Type *a1, Type *a2) {
         self->arg = a1;
         self->result = a2;
         break;
+    case TPAIR:
+        self->fst = a1;
+        self->snd = a2;
+        break;
     default:
         break;
     }
@@ -52,10 +56,14 @@ Type *type_fn(Type *a, Type *r) {
     return type_operator2(TFN, a, r);
 }
 
+Type *type_pair(Type *f, Type *s) {
+    return type_operator2(TPAIR, f, s);
+}
+
 Type *type_var() {
     Type *self = type_operator0(TVAR);
 
-    self->id = cur_id++;
+    self->id = unique_id++;
     self->name = 0;
     self->instance = NULL;
 
@@ -85,6 +93,9 @@ bool same_type(Type *t1, Type *t2) {
             if(!same_type(t1->types[i], t2->types[i]))
                 return false;
         }
+    }
+    else if(is_type_variable(t1)) {
+        if(t1->id != t2->id) return false; 
     }
 
     return true;
@@ -122,6 +133,14 @@ void typedump_core(Type *ty) {
         else {
             printf("%c", ty->name);
         }
+        break;
+    }
+    case TPAIR: {
+        printf("(");
+        typedump_core(ty->fst);
+        printf(" * ");
+        typedump_core(ty->snd);
+        printf(")");
         break;
     }
     default:        printf("error");

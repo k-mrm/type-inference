@@ -8,6 +8,7 @@ enum TypeKind {
     TINT,
     TBOOL,
     TFN,
+    TPAIR,
     /* Type Variable  */
     TVAR,
 };
@@ -26,6 +27,12 @@ struct Type {
             Type *result;
         };
 
+        /* Pair */
+        struct {
+            Type *fst;
+            Type *snd;
+        };
+
         /* Type Variable */
         struct {
             int id;
@@ -39,6 +46,7 @@ Type *type_int(void);
 Type *type_bool(void);
 Type *type_fn(Type *, Type *);
 Type *type_var(void);
+Type *type_pair(Type *, Type *);
 bool is_type_variable(Type *);
 bool is_type_operator(Type *);
 bool same_type(Type *, Type *);

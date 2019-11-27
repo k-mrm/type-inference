@@ -13,13 +13,21 @@ void init(Env *env) {
     Int = type_int();
     Bool = type_bool();
 
+    Type *var1 = type_var();
+    Type *var2 = type_var();
+
     add_to_env(env, "true", Bool);
     add_to_env(env, "false", Bool);
     add_to_env(env, "+", type_fn(Int, type_fn(Int, Int)));
     add_to_env(env, "*", type_fn(Int, type_fn(Int, Int)));
     add_to_env(env, ">", type_fn(Int, type_fn(Int, Bool)));
     add_to_env(env, "<", type_fn(Int, type_fn(Int, Bool)));
-    add_to_env(env, "test", type_fn(Int, type_fn(Bool, Int)));
+
+    add_to_env(env, "pair", type_fn(
+                                var1,
+                                type_fn(var2, type_pair(var1, var2))
+                            )
+    );
 }
 
 int main(void) {
@@ -29,9 +37,10 @@ int main(void) {
 
     Expr *els[] = {
         integer(200),
-        var("choko"),
+        var("choko"),   // error
         var("+"),
         var("true"),
+        var("pair"),
         let("x", integer(10), var("x")),
         let("y", var("false"), var("y")),
         let("z", integer(200), binary(var("z"), "+", integer(210))),
@@ -63,12 +72,14 @@ int main(void) {
         let(
             "f",
             lambda("x", var("x")),
-            binary(
-                apply(var("f"), integer(200)),
-                "test",
+            apply(
+                apply(
+                    var("pair"),
+                    apply(var("f"), integer(200))
+                ),
                 apply(var("f"), var("true"))
             )
-        ),  // TODO: error
+        )
     };
 
     int nels = sizeof(els) / sizeof(els[0]);
