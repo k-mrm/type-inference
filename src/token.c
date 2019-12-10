@@ -33,6 +33,12 @@ Token *new_ident_token(char *i) {
     else if(strcmp(i, "rec") == 0) {
         k = TK_REC;
     }
+    else if(strcmp(i, "=") == 0) {
+        k = TK_ASSIGN;
+    }
+    else if(strcmp(i, "->") == 0) {
+        k = TK_ARROW;
+    }
 
     Token *tk = new_token(k);
 

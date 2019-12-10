@@ -12,6 +12,9 @@ enum TokenKind {
     TK_REC,
     TK_FUN,
     TK_IN,
+    /* Symbol */
+    TK_ASSIGN,   // =
+    TK_ARROW,    // ->
 };
 
 struct Token {
