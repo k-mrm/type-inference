@@ -22,4 +22,9 @@ struct Token {
     char *name;
 };
 
+Token *new_token(enum TokenKind);
+Token *new_number_token(int);
+Token *new_ident_token(char *);
+Token *token_end();
+
 #endif

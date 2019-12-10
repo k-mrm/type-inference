@@ -16,11 +16,27 @@ Vector *lex(char *src) {
 }
 
 static char *number(Vector *token, char *n) {
-    ;
+    int num;
+
+    while(isdigit(*n)) {
+        num = num * 10 + *n++ - '0'; 
+    }
+
+    vec_push(token, new_number_token(num));
+
+    return n;
 }
 
 static char *ident(Vector *token, char *i) {
-    ;
+    int len = 1;
+
+    while(!isblank(i[len])) {
+        len++;
+    }
+
+    vec_push(token, new_ident_token(i));
+
+    return i + len;
 }
 
 static void scan(Vector *token, char *src) {
@@ -38,4 +54,6 @@ static void scan(Vector *token, char *src) {
             continue;
         }
     }
+
+    token_end();
 }
