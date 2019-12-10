@@ -133,11 +133,23 @@ int main(void) {
                     )
                 )
             ),
-            apply(var("fibo"), integer(30))
+            var("fibo")
         ),
     };
 
     int nels = sizeof(els) / sizeof(els[0]);
+
+    char c;
+
+    for(;;) {
+        printf(">> ");
+
+        while((c = getchar()) != '\n') {
+            if(c == EOF) return 0;
+            printf("%c", c);
+        }
+        puts("");
+    }
 
     for(int i = 0; i < nels; i++) {
         exprdump(els[i]);
