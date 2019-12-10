@@ -2,7 +2,8 @@
 #define TI_PARSER_H
 
 #include "expr.h"
+#include "util.h"
 
-Expr *parse(); 
+Expr *parse(Vector *); 
 
 #endif

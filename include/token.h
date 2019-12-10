@@ -4,6 +4,7 @@
 typedef struct Token Token;
 
 enum TokenKind {
+    TK_END,
     TK_NUMBER, 
     TK_IDENT,
     /* keyword */
@@ -15,6 +16,10 @@ enum TokenKind {
 
 struct Token {
     enum TokenKind kind;
+    /* TK_NUMBER */
+    int number;
+    /* TK_IDENT */
+    char *name;
 };
 
 #endif

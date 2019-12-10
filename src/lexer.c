@@ -15,15 +15,26 @@ Vector *lex(char *src) {
     return tokens;
 }
 
+static char *number(Vector *token, char *n) {
+    ;
+}
+
+static char *ident(Vector *token, char *i) {
+    ;
+}
+
 static void scan(Vector *token, char *src) {
-    for(int i = 0; i < strlen(src); i++) {
-        if(isdigit(src[i])) {
-            ;
+    while(*src) {
+        if(isdigit(*src)) {
+            src = number(token, src);
+            continue;
         }
-        else if(isalpha(src[i]) || src[i] == '_') {
-            ;
+        else if(isblank(*src)) {
+            src++;
+            continue;
         }
-        else if(isblank(src[i])) {
+        else {  // var
+            src = ident(token, src);
             continue;
         }
     }

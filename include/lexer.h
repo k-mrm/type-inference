@@ -3,6 +3,6 @@
 
 #include "util.h"
 
-Vector *lex(char *src);
+Vector *lex(char *);
 
 #endif
