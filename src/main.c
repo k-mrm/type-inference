@@ -139,6 +139,14 @@ int main(void) {
 
     int nels = sizeof(els) / sizeof(els[0]);
 
+    for(int i = 0; i < nels; i++) {
+        exprdump(els[i]);
+        printf(" : ");
+        printf("\e[1m");
+        typedump(prune(analyze(env, els[i], NULL)));
+        printf("\e[0m");
+    }
+
     char c;
 
     for(;;) {
@@ -149,14 +157,6 @@ int main(void) {
             printf("%c", c);
         }
         puts("");
-    }
-
-    for(int i = 0; i < nels; i++) {
-        exprdump(els[i]);
-        printf(" : ");
-        printf("\e[1m");
-        typedump(prune(analyze(env, els[i], NULL)));
-        printf("\e[0m");
     }
 
     return 0;
