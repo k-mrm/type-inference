@@ -12,6 +12,8 @@
 Type *Int;
 Type *Bool;
 
+extern bool error_occurred;
+
 void init(Env *env) {
     Int = type_int();
     Bool = type_bool();
@@ -165,7 +167,14 @@ int main(void) {
 
             src[cursor++] = c;
         }
-        typedump(analyze(env, parse(lex(src)), NULL));
+
+        Type *ret = analyze(env, parse(lex(src)), NULL);
+        if(!error_occurred) {
+            typedump(ret);
+        }
+        else {
+            error_occurred = false;
+        }
     }
 
     return 0;

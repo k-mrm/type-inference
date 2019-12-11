@@ -10,6 +10,8 @@ static bool is_generic(Type *, NonGeneric *);
 static bool occursin(Type *, Type *);
 static bool occursin_type(Type *, Type *);
 
+bool error_occurred = false;
+
 Type *prune(Type *ty) {
     if(ty == NULL) return NULL;
 
@@ -127,6 +129,8 @@ void unify(Type *t1, Type *t2) {
         if(!same_type(t1, t2)) {
             if(occursin_type(t1, t2)) {
                 printf("recursive unification");
+                error_occurred = true;
+                return;
             }
             t1->instance = t2;
         }
@@ -143,6 +147,8 @@ void unify(Type *t1, Type *t2) {
             printf(", ");
             typedump_core(t2);
             puts("");
+
+            error_occurred = true;
 
             return;
         }
