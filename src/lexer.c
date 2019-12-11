@@ -19,7 +19,8 @@ static char *number(Vector *token, char *n) {
     int num;
 
     while(isdigit(*n)) {
-        num = num * 10 + *n++ - '0'; 
+        num = num * 10 + *n - '0'; 
+        n++;
     }
 
     vec_push(token, new_number_token(num));

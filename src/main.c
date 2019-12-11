@@ -1,10 +1,13 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "type.h"
 #include "expr.h"
 #include "env.h"
 #include "infer.h"
 #include "util.h"
+#include "lexer.h"
+#include "parser.h"
 
 Type *Int;
 Type *Bool;
@@ -147,16 +150,21 @@ int main(void) {
         printf("\e[0m");
     }
 
+    char src[256] = {0};
+    int cursor;
     char c;
 
     for(;;) {
         printf(">> ");
+        memset(src, 0, 256);
+        cursor = 0;
 
         while((c = getchar()) != '\n') {
             if(c == EOF) return 0;
-            printf("%c", c);
+
+            src[cursor++] = c;
         }
-        puts("");
+        typedump(analyze(env, parse(lex(src)), NULL));
     }
 
     return 0;

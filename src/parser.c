@@ -23,11 +23,9 @@ Expr *parse(Vector *_token) {
 }
 
 static Expr *enter() {
-    Expr *st;
+    if(tokens->len == 0) return NULL;
 
-    while(!Cur_Token_Is(TK_END)) {
-        st = expr();
-    }
+    Expr *st = expr();
 
     return st;
 }
@@ -46,6 +44,9 @@ static Expr *expr() {
         Expr *i = integer(Cur_Token()->number); 
         Step();
         return i;
+    }
+    else if(Cur_Token_Is(TK_END)) {
+        return NULL;
     }
 
     parse_error();

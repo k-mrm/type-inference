@@ -110,7 +110,6 @@ void typedump(Type *ty) {
 
 void typedump_core(Type *ty) {
     if(ty == NULL) {
-        printf("null");
         return;
     }
 

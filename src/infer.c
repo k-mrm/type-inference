@@ -161,6 +161,8 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
         nongeneric = new_non_generic();
     }
 
+    if(!e) return NULL;
+
     switch(e->kind) {
     case INTEGER:
         return type_int();
