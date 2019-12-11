@@ -15,6 +15,8 @@ enum TokenKind {
     /* Symbol */
     TK_ASSIGN,   // =
     TK_ARROW,    // ->
+    TK_LPAREN,   // (
+    TK_RPAREN,   // )
 };
 
 struct Token {

@@ -49,6 +49,7 @@ int main(void) {
 
     init(env);
 
+    /*
     Expr *els[] = {
         integer(200),
         var("choko"),   // error
@@ -148,7 +149,7 @@ int main(void) {
         printf("\e[1m");
         typedump(prune(analyze(env, els[i], NULL)));
         printf("\e[0m");
-    }
+    } */
 
     char src[256] = {0};
     int cursor;

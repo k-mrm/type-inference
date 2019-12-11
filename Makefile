@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS=-Wall -Wextra -std=c11 -I ./include/ -g
+CFLAGS=-Wall -Wextra -std=c11 -I ./include/ -g -O0
 SRCROOT = .
 SRCDIRS := $(shell find $(SRCROOT) -type d)
 SRCS=$(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.c))

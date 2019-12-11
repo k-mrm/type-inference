@@ -39,6 +39,12 @@ Token *new_ident_token(char *i) {
     else if(strcmp(i, "->") == 0) {
         k = TK_ARROW;
     }
+    else if(strcmp(i, "(") == 0) {
+        k = TK_LPAREN;
+    }
+    else if(strcmp(i, ")") == 0) {
+        k = TK_RPAREN;
+    }
 
     Token *tk = new_token(k);
 
