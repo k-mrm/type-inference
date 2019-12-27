@@ -11,7 +11,7 @@
 
 Type *Int;
 Type *Bool;
-
+extern char unique_name;
 extern bool error_occurred;
 
 void init(Env *env) {
@@ -175,6 +175,8 @@ int main(void) {
         else {
             error_occurred = false;
         }
+
+        unique_name = 'a';
     }
 
     return 0;
