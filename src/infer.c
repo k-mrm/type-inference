@@ -26,9 +26,9 @@ Type *prune(Type *ty) {
 }
 
 /*
- *  型変数がnon-generic変数のリストに出現するか
- *  出現したら -> false
- *  しなかったら -> true
+ *  型変数がnon-generic型変数のリストに出現するか
+ *  出現したらnon-genericなので -> false
+ *  しなかったらgenericなので -> true
  */
 static bool is_generic(Type *tvar, NonGeneric *nongeneric) {
     for(int i = 0; i < nongeneric->cursor; i++) {
@@ -53,11 +53,11 @@ static bool occursin_type(Type *tvar, Type *texp) {
 
 
 /*
- * 型変数が出現するかチェックする
+ * 型(第2引数)の中に型変数(第1引数)が出現するかチェックする
  */
-static bool occursin(Type *ty, Type *tope) {
+static bool occursin(Type *tyvar, Type *tope) {
     for(int i = 0; i < tope->ntype; i++) {
-        if(occursin_type(ty, tope->types[i])) return true;
+        if(occursin_type(tyvar, tope->types[i])) return true;
     }
 
     return false;
@@ -125,6 +125,12 @@ void unify(Type *t1, Type *t2) {
     t1 = prune(t1);
     t2 = prune(t2);
 
+    printf("unifying...");
+    typedump_core(t1);
+    printf(", ");
+    typedump_core(t2);
+    puts("");
+
     if(is_type_variable(t1)) {
         if(!same_type(t1, t2)) {
             if(occursin_type(t1, t2)) {
@@ -170,8 +176,14 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
     if(!e) return NULL;
 
     switch(e->kind) {
-    case INTEGER:
-        return type_int();
+    case INTEGER: {
+        Type *result = type_int();
+
+        printf("integer %d: ", e->num);
+        typedump(result);
+
+        return result;
+    }
     case VAR: {
         Type *ty = lookup(env, e->name, nongeneric);
 
@@ -179,6 +191,9 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
             printf("unknown identifer `%s`\n", e->name);
             return NULL;
         }
+
+        printf("var %s: ", e->name);
+        typedump(ty);
 
         return ty;
     }
@@ -193,7 +208,14 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
 
         Type *ret = analyze(copied_env, e->e, copied_ng);
 
-        return type_fn(argty, ret);
+        Type *result = type_fn(argty, ret);
+
+        printf("lambda" );
+        exprdump(e);
+        printf(": ");
+        typedump(result);
+
+        return result;
     }
     case APPLY: {
         Type *fn = analyze(env, e->fn, nongeneric);
@@ -201,6 +223,11 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
         Type *res = type_var(); 
 
         unify(fn, type_fn(arg, res));
+
+        printf("apply ");
+        exprdump(e);
+        printf(": ");
+        typedump(res);
 
         return res;
     }
@@ -210,7 +237,11 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
         Env *new = copy_env(env);
         add_to_env(new, e->lname, def);
 
-        return analyze(new, e->lbody, nongeneric);
+        Type *result = analyze(new, e->lbody, nongeneric);
+        printf("let %s: ", e->lname);
+        typedump(result);
+
+        return result;
     }
     case LETREC: {
         Type *new = type_var();
@@ -225,7 +256,11 @@ Type *analyze(Env *env, Expr *e, NonGeneric *nongeneric) {
 
         unify(new, def);
 
-        return analyze(new_env, e->recbody, new_nongeneric);
+        Type *result = analyze(new_env, e->recbody, new_nongeneric);
+        printf("letrec %s: ", e->recname);
+        typedump(result);
+
+        return result;
     }
     default:
         printf("internal error");

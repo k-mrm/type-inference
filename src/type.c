@@ -117,9 +117,11 @@ void typedump_core(Type *ty) {
     case TINT:      printf("int");  break;
     case TBOOL:     printf("bool"); break;
     case TFN: {
+        printf("(");
         typedump_core(ty->arg);
         printf(" -> ");
         typedump_core(ty->result);
+        printf(")");
         break;
     }
     case TVAR: {

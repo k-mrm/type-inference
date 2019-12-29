@@ -17,7 +17,7 @@ Vector *lex(char *src) {
 }
 
 static char *number(Vector *token, char *n) {
-    int num;
+    int num = 0;
 
     while(isdigit(*n)) {
         num = num * 10 + *n - '0'; 
