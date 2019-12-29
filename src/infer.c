@@ -26,7 +26,9 @@ Type *prune(Type *ty) {
 }
 
 /*
- *  型変数がnon-generic型変数のリストに出現するか
+ *  型変数がgenericかどうかを判定する
+ *
+ *  型変数がnon-generic型変数のリストに出現するかを見る
  *  出現したらnon-genericなので -> false
  *  しなかったらgenericなので -> true
  */
@@ -86,7 +88,7 @@ Type *type_get_or_put(Map *self, Type *key, Type *default_value) {
 }
 
 /*
- *  type_operatorはコピーを作成し，generic変数は複製
+ *  type_operatorとgeneric変数は複製
  *  non-generic変数は共有
  */
 Type *freshrec(Type *ty, NonGeneric *nongeneric, Map *mappings) {
